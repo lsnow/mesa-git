@@ -24,7 +24,7 @@ depends=('libdrm' 'libxxf86vm' 'libxdamage' 'libxshmfence' 'libelf'
          'glibc' 'zlib'
 )
 optdepends=('opengl-man-pages: for the OpenGL API man pages')
-provides=('mesa' 'vulkan-intel' 'vulkan-radeon' 'vulkan-mesa-layers' 'libva-mesa-driver' 'mesa-vdpau' 'vulkan-swrast' 'vulkan-driver' 'mesa-libgl' 'opengl-driver')
+provides=('mesa' 'vulkan-radeon' 'vulkan-mesa-layers' 'libva-mesa-driver' 'mesa-vdpau' 'vulkan-swrast' 'vulkan-driver' 'mesa-libgl' 'opengl-driver')
 conflicts=('mesa' 'opencl-clover-mesa' 'opencl-rusticl-mesa' 'vulkan-intel' 'vulkan-radeon' 'vulkan-mesa-layers' 'libva-mesa-driver' 'mesa-vdpau' 'vulkan-swrast' 'mesa-libgl')
 url="https://www.mesa3d.org"
 license=('custom')
@@ -43,8 +43,8 @@ sha512sums=(
     '25da77914dded10c1f432ebcbf29941124138824ceecaf1367b3deedafaecabc082d463abcfa3d15abff59f177491472b505bcb5ba0c4a51bb6b93b4721a23c2'
 )
 
-options=(!lto debug strip)
-#options=(!lto strip)
+#options=(!lto debug strip)
+options=(!lto strip)
 # lto and debug are disabled manually through meson -D flags, but it feels cleaner to also list them here.
 
 
@@ -97,10 +97,10 @@ build () {
        -D prefix=/usr \
        -D sysconfdir=/etc \
        -D b_ndebug=false \
-       -D sysprof=true \
-       --optimization=g \
        _build
        #--wrap-mode=nofallback \
+       #-D sysprof=true \
+       #--optimization=g \
        #-D buildtype=debug \
        
     meson configure --no-pager _build
