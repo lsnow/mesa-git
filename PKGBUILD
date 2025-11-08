@@ -12,7 +12,7 @@
 
 pkgname=mesa-git
 pkgdesc="an open-source implementation of the OpenGL specification, git version"
-pkgver=25.3.0_devel.65004.62815cc91f
+pkgver=26.0.0_devel.68002.f1cb63a21d
 pkgrel=1
 arch=('x86_64')
 makedepends=('git' 'python-mako' 'xorgproto' 'libxml2' 'libvdpau' 'libva' 'elfutils' 'libxrandr'
@@ -24,7 +24,7 @@ depends=('libdrm' 'libxxf86vm' 'libxdamage' 'libxshmfence' 'libelf'
          'glibc' 'zlib'
 )
 optdepends=('opengl-man-pages: for the OpenGL API man pages')
-provides=('mesa' 'vulkan-radeon' 'vulkan-mesa-layers' 'libva-mesa-driver' 'mesa-vdpau' 'vulkan-swrast' 'vulkan-driver' 'mesa-libgl' 'opengl-driver')
+provides=('mesa' 'vulkan-radeon' 'vulkan-mesa-layers' 'libva-mesa-driver' 'mesa-vdpau' 'vulkan-swrast' 'vulkan-driver' 'mesa-libgl' 'opengl-driver' 'vulkan-mesa-device-select')
 conflicts=('mesa' 'opencl-clover-mesa' 'opencl-rusticl-mesa' 'vulkan-intel' 'vulkan-radeon' 'vulkan-mesa-layers' 'libva-mesa-driver' 'mesa-vdpau' 'vulkan-swrast' 'mesa-libgl')
 url="https://www.mesa3d.org"
 license=('custom')
@@ -73,13 +73,12 @@ build () {
     meson setup \
        -D b_lto=false \
        -D platforms=x11,wayland \
-       -D gallium-drivers=virgl,zink \
+       -D gallium-drivers=virgl,zink,radeonsi \
        -D vulkan-drivers=amd \
        -D vulkan-layers=device-select,overlay \
        -D egl=enabled \
        -D gallium-extra-hud=true \
        -D gallium-va=enabled \
-       -D gallium-vdpau=enabled \
        -D gbm=enabled \
        -D gles1=disabled \
        -D gles2=enabled \
@@ -88,6 +87,7 @@ build () {
        -D vulkan-beta=true \
        -D libunwind=enabled \
        -D llvm=disabled \
+       -D amd-use-llvm=false \
        -D lmsensors=enabled \
        -D microsoft-clc=disabled \
        -D valgrind=disabled \
